@@ -1,16 +1,30 @@
 const nodemailer = require("nodemailer");
 require("dotenv").config();
 const mailBody = require("./mailBody");
+const subscribedMailBody = require("./subscribedMailBody");
 
 const appPass = process.env.GMAIL_PASSWORD;
 
-function mailWithData(data) {
-  const mailContent = mailBody(
-    data.title,
-    data.imageUrl,
-    data.currentPrice,
-    data.productUrl
-  );
+function mailWithData(event, data) {
+  let mailContent;
+
+  if (event === "reached") {
+    mailContent = mailBody(
+      data.title,
+      data.imageUrl,
+      data.currentPrice,
+      data.productUrl
+    );
+  }
+  if (event === "subscribed") {
+    mailContent = subscribedMailBody(
+      data.product,
+      data.imageUrl,
+      data.price,
+      data.priceSelected,
+      data.productUrl
+    );
+  }
 
   let transporter = nodemailer.createTransport({
     service: "gmail",

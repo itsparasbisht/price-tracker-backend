@@ -1,6 +1,7 @@
 const express = require("express");
 const notifyRouter = express.Router();
 const Item = require("../model/items");
+const mailWithData = require("../functions/mailWithData");
 
 notifyRouter.post("/", (req, res) => {
   try {
@@ -21,6 +22,7 @@ notifyRouter.post("/", (req, res) => {
         console.log(err);
         res.status(500).json({ message: err.message });
       } else {
+        mailWithData("subscribed", result);
         res.status(201).json({ item: result });
       }
     });
