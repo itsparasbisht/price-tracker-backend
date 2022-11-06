@@ -16,6 +16,7 @@ function computeAndMail(items, currentPrice) {
           oldPrice: item.price,
           priceSelected: item.priceSelected,
           currentPrice: currentPrice[i].currentPrice,
+          email: item.email,
         });
         break;
       }
@@ -24,7 +25,7 @@ function computeAndMail(items, currentPrice) {
 
   itemUpdated.forEach((item) => {
     if (item.currentPrice <= item.priceSelected) {
-      mailWithData(item);
+      mailWithData("reached", item, item.email);
     } else {
       console.log(`${item.id} -------- NOT YET`);
     }

@@ -5,8 +5,10 @@ const subscribedMailBody = require("./subscribedMailBody");
 
 const appPass = process.env.GMAIL_PASSWORD;
 
-function mailWithData(event, data) {
+function mailWithData(event, data, email) {
   let mailContent;
+  let mailSubject;
+  let mailTo = email;
 
   if (event === "reached") {
     mailContent = mailBody(
@@ -15,6 +17,7 @@ function mailWithData(event, data) {
       data.currentPrice,
       data.productUrl
     );
+    mailSubject = "Price Update: Amazon Price Tracker";
   }
   if (event === "subscribed") {
     mailContent = subscribedMailBody(
@@ -24,6 +27,7 @@ function mailWithData(event, data) {
       data.priceSelected,
       data.productUrl
     );
+    mailSubject = "Successfully Subscribed: Amazon Price Tracker";
   }
 
   let transporter = nodemailer.createTransport({
@@ -38,8 +42,8 @@ function mailWithData(event, data) {
   const sendMail = async () => {
     let info = await transporter.sendMail({
       from: "parash@sirpi.io",
-      to: "parasbisht.web@gmail.com",
-      subject: "Price Update: Amazon Price Tracker",
+      to: mailTo,
+      subject: mailSubject,
       html: mailContent,
     });
 

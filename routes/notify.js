@@ -22,7 +22,7 @@ notifyRouter.post("/", (req, res) => {
         console.log(err);
         res.status(500).json({ message: err.message });
       } else {
-        mailWithData("subscribed", result);
+        mailWithData("subscribed", result, result.email);
         res.status(201).json({ item: result });
       }
     });
