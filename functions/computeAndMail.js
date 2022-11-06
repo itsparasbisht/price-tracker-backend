@@ -1,4 +1,5 @@
 const mailWithData = require("./mailWithData");
+const Items = require("../model/items");
 
 function computeAndMail(items, currentPrice) {
   const itemUpdated = [];
@@ -26,6 +27,16 @@ function computeAndMail(items, currentPrice) {
   itemUpdated.forEach((item) => {
     if (item.currentPrice <= item.priceSelected) {
       mailWithData("reached", item, item.email);
+
+      // update db with active false
+      Items.findByIdAndUpdate(item.id, { active: false }, (err, result) => {
+        if (err) {
+          console.log("-----------error while updating-----------");
+          console.log(error);
+        } else {
+          console.log(`${item.id} updated`);
+        }
+      });
     } else {
       console.log(`${item.id} -------- NOT YET`);
     }
