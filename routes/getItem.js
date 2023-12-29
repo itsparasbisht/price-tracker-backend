@@ -11,11 +11,15 @@ getItemRouter.post("/", (req, res) => {
     data
       .then((response) => {
         console.log(">>>", response);
-        res.json({ item: response });
+        if (response.error) {
+          res.status(403).json({ error: response.error });
+        } else {
+          res.json({ item: response });
+        }
       })
       .catch((error) => {
         console.log("---", error);
-        res.json({ error: "failed" });
+        res.json({ error });
       });
   } else {
     res.json({
