@@ -1,11 +1,15 @@
 const puppeteer = require("puppeteer");
+const { executablePath } = require("puppeteer");
 
 async function scrapItem(itemUrl) {
   const URL = itemUrl;
   let browser;
 
   try {
-    browser = await puppeteer.launch({ headless: true });
+    browser = await puppeteer.launch({
+      headless: true,
+      executablePath: executablePath(),
+    });
     const page = await browser.newPage();
     await page.goto(URL);
 
