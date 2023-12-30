@@ -7,7 +7,7 @@ async function scrapItem(itemUrl) {
   try {
     browser = await puppeteer.launch({ headless: true });
     const page = await browser.newPage();
-    await page.goto(URL, { waitUntil: "domcontentloaded" });
+    await page.goto(URL);
 
     // get item title
     let title = await page.evaluate(() => {
