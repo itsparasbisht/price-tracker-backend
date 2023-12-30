@@ -18,19 +18,19 @@ async function scrapItem(itemUrl) {
     // get item title
     let title = await page.evaluate(() => {
       let item = document.querySelector("#productTitle");
-      return item?.innerText;
+      return item.innerText;
     });
 
     // get item price
     let price = await page.evaluate(() => {
       let item = document.querySelector(".a-price-whole");
-      return parseInt(item?.innerText.replace(/\D/g, ""));
+      return parseInt(item.innerText.replace(/\D/g, ""));
     });
 
     // get item image
     let image = await page.evaluate(() => {
       let item = document.querySelector("#landingImage");
-      return item?.getAttribute("src");
+      return item.getAttribute("src");
     });
 
     return {
