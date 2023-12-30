@@ -6,20 +6,18 @@ getItemRouter.post("/", (req, res) => {
   const { itemUrl } = req.body;
 
   if (itemUrl) {
-    const data = scrapItem(itemUrl);
-    console.log("DATA --->", data);
-    data
+    scrapItem(itemUrl)
       .then((response) => {
         console.log(">>>", response);
-        if (response.error) {
-          res.status(403).json({ error: response.error });
-        } else {
+        if (response?.title) {
           res.json({ item: response });
+        } else {
+          res.json({ message: "failed to scrap data" });
         }
       })
       .catch((error) => {
         console.log("---", error);
-        res.json({ error });
+        res.status(500).json({ error: error.message });
       });
   } else {
     res.json({

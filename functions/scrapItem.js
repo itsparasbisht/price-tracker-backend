@@ -2,11 +2,11 @@ const puppeteer = require("puppeteer");
 
 async function scrapItem(itemUrl) {
   const URL = itemUrl;
-
-  const browser = await puppeteer.launch();
-  const page = await browser.newPage();
+  let browser;
 
   try {
+    browser = await puppeteer.launch();
+    const page = await browser.newPage();
     await page.goto(URL, { waitUntil: "domcontentloaded" });
 
     // get item title
@@ -27,17 +27,14 @@ async function scrapItem(itemUrl) {
       return item?.getAttribute("src");
     });
 
-    if (title) {
-      return {
-        title,
-        image,
-        price,
-      };
-    }
-    return { error: "failed to scrap data" };
+    return {
+      title,
+      image,
+      price,
+    };
   } catch (error) {
-    console.error("Error accessing the page:", error);
-    return null;
+    console.error("error - ", error);
+    throw new Error(error);
   } finally {
     if (browser) {
       await browser.close();
