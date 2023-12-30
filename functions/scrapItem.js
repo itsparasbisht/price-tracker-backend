@@ -1,6 +1,8 @@
 const puppeteer = require("puppeteer");
 const { executablePath } = require("puppeteer");
 
+console.log("chromium path - ", executablePath());
+
 async function scrapItem(itemUrl) {
   const URL = itemUrl;
   let browser;
