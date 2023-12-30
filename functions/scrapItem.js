@@ -13,7 +13,7 @@ async function scrapItem(itemUrl) {
       executablePath: executablePath(),
     });
     const page = await browser.newPage();
-    await page.goto(URL);
+    await page.goto(URL, { waitUntil: "load", timeout: 0 });
 
     await page.waitForSelector("#productTitle");
     let element = await page.$("#productTitle");
